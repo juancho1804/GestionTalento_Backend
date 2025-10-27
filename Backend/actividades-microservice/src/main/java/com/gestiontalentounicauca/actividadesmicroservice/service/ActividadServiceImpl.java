@@ -37,37 +37,57 @@ public class ActividadServiceImpl implements IActividadService {
     @Override
     public ActividadResponseDTO crearActividad(ActividadRequestDTO actividadRequestDTO) {
 
-
+        //Validar que la actividad este asociada a un plan
         if(actividadRequestDTO.getPlanId() == null){
             throw new RuntimeException("El plan es nulo");
         }
+        // Buscar el plan asociado a la actividad
         Plan plan = planRepository.findById(actividadRequestDTO.getPlanId()).orElse(null);
         if(plan == null){
             throw new RuntimeException("El plan no existe");
         }
 
+        //Buscar el usuario asociado a la cedula del encargado de la actividad
         ResponseEntity<UsuarioResponseDTO> usuario = usuariosClient.getUsuarioByCedula(actividadRequestDTO.getCedulaEncargado());
 
+
+        //Validar que el usuario existe
+        if(usuario.getBody()==null){
+            throw new RuntimeException("El usuario no existe");
+        }
+
+        // Crear objeto encargado
         Participante encargado = new Participante();
+
+        //Pasar id del usuario al encargado
         encargado.setIdUsuario(usuario.getBody().getId());
+        //Guardar encargado
         encargado = participanteRepository.save(encargado);
+
+        // Crear objeto actividad ENTIDAD
         Actividad actividad = Actividad.builder()
                 .nombre(actividadRequestDTO.getNombre())
                 .encargado(encargado)
                 .plan(plan).build();
 
+        // Crear objeto encargadoResponse
         ParticipanteResponseDTO encargadoResponse = ParticipanteResponseDTO.builder()
                 .idParticipante(encargado.getId())
                 .actividad(ActividadResponseDTO.builder().build())
                 .usuario(usuario.getBody())
                 .build();
 
+        //Guardar actividad
         actividad = actividadRepository.save(actividad);
+
+        //Asignar actividad a encargado
         encargado.setActividad(actividad);
+        //"Actualizar" encargado
         participanteRepository.save(encargado);
 
 
 
+        //Crear objeto actividad response
         ActividadResponseDTO actividadResponseDTO = ActividadResponseDTO.builder()
                 .nombre(actividad.getNombre())
                 .encargado(encargadoResponse)
@@ -75,6 +95,7 @@ public class ActividadServiceImpl implements IActividadService {
                 .participantes(new ArrayList<>())
                 .build();
 
+        encargadoResponse.setActividad(actividadResponseDTO);
         return actividadResponseDTO;
     }
 

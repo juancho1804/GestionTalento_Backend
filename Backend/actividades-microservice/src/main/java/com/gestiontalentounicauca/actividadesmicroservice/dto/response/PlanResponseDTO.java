@@ -15,6 +15,5 @@ public class PlanResponseDTO {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate fechaFin;
     private Float presupuestoAsignado;
-    private Float presupuestoPrevisto;
     private Float presupuestoEjecutado;
 }

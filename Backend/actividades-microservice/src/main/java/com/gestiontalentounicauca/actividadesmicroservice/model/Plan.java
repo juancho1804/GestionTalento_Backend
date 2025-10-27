@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "plan")
@@ -12,6 +13,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Builder
 @Getter
+@Setter
 public class Plan {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,11 +27,12 @@ public class Plan {
     @Column(nullable = false)
     private LocalDate fechaFin;
 
-    @Column
-    private Float presupuestoAsignado;
+    @OneToMany(mappedBy = "plan", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Actividad> actividades;
+
 
     @Column
-    private Float presupuestoPrevisto;
+    private Float presupuestoAsignado;
 
     @Column
     private Float presupuestoEjecutado;

@@ -11,6 +11,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PlanServiceImpl implements IPlanService {
@@ -31,21 +32,45 @@ public class PlanServiceImpl implements IPlanService {
 
     @Override
     public PlanResponseDTO actualizarPlan(Long id, PlanRequestDTO planRequestDTO) {
-        return null;
+        Plan planModel = planRepository.findById(id).orElse(null);
+        if (planModel == null) {
+            throw new RuntimeException("No se encontro el plan");
+        }
+        if (planRequestDTO.getPresupuestoAsignado() < 1) {
+            throw new PresupuestoNoValido("El presupuesto debe ser mayor que 0 ");
+        }
+        planModel = planMapper.toEntity(planRequestDTO);
+        planModel.setId(id);
+
+        return planMapper.toResponse(planRepository.save(planModel));
     }
 
     @Override
     public Boolean eliminarPlan(Long id) {
-        return null;
+
+        if(id == null || !planRepository.existsById(id)) {
+            throw new RuntimeException("No se encontró el plan");
+        }
+        planRepository.deleteById(id);
+
+        return true;
     }
 
     @Override
     public PlanResponseDTO getPlan(Long id) {
-        return null;
+        Plan planModel = planRepository.findById(id).orElse(null);
+        if (planModel == null) {
+            throw new RuntimeException("No se encontro el plan");
+        }
+        return planMapper.toResponse(planModel);
     }
 
     @Override
     public List<PlanResponseDTO> getPlanes() {
-        return List.of();
+        List<Plan> planModels = planRepository.findAll();
+
+        return planModels.stream()
+                .map(planMapper::toResponse)
+                .collect(Collectors.toList());
     }
 }
