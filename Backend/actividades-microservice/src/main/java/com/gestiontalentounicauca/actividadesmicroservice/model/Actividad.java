@@ -8,11 +8,11 @@ import java.util.List;
 
 @Table(name = "actividad")
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class Actividad {
+public abstract class Actividad {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

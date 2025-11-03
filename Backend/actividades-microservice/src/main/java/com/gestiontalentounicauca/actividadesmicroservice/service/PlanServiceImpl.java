@@ -5,9 +5,9 @@ import com.gestiontalentounicauca.actividadesmicroservice.dto.request.PlanReques
 import com.gestiontalentounicauca.actividadesmicroservice.dto.response.PlanResponseDTO;
 import com.gestiontalentounicauca.actividadesmicroservice.exception.PresupuestoNoValido;
 import com.gestiontalentounicauca.actividadesmicroservice.model.Plan;
+import com.gestiontalentounicauca.actividadesmicroservice.model.TipoPlan;
 import com.gestiontalentounicauca.actividadesmicroservice.repository.PlanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,8 +39,20 @@ public class PlanServiceImpl implements IPlanService {
         if (planRequestDTO.getPresupuestoAsignado() < 1) {
             throw new PresupuestoNoValido("El presupuesto debe ser mayor que 0 ");
         }
-        planModel = planMapper.toEntity(planRequestDTO);
-        planModel.setId(id);
+
+        for(TipoPlan tp : TipoPlan.values()) {
+            if(planRequestDTO.getNombre().equalsIgnoreCase(tp.toString())) {
+                planModel.setTipoPlan(tp);
+                break;
+            }
+        }
+
+        planModel.setFechaInicio(planRequestDTO.getFechaInicio());
+        planModel.setFechaFin(planRequestDTO.getFechaInicio().plusYears(1));
+        if(planRequestDTO.getPresupuestoAsignado() < 1) {
+            throw new RuntimeException("El presupuesto debe ser mayor que 0 ");
+        }
+        planModel.setPresupuestoAsignado(planRequestDTO.getPresupuestoAsignado());
 
         return planMapper.toResponse(planRepository.save(planModel));
     }

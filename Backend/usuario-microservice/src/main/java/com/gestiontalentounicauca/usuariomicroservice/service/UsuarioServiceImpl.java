@@ -127,8 +127,11 @@ public class UsuarioServiceImpl implements IUsuarioService {
 
     @Override
     public UsuarioResponseDTO buscarUsuarioPorCedula(String cedula) {
-        UsuarioResponseDTO usuarioResponseDTO = usuarioMapper.toResponse(usuarioRepository.findByCedula(cedula));
-        return usuarioResponseDTO;
+        UsuarioModel usuarioModel = usuarioRepository.findByCedula(cedula);
+        if(usuarioModel==null){
+            throw new EntityNotFoundException("Usuario no encontrado");
+        }
+        return usuarioMapper.toResponse(usuarioModel);
     }
 
 

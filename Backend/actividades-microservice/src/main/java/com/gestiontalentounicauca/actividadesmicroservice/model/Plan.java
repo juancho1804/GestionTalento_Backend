@@ -19,8 +19,9 @@ public class Plan {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String nombre;
+    @Column
+    @Enumerated(EnumType.STRING)
+    private TipoPlan tipoPlan;
 
     @Column(nullable = false)
     private LocalDate fechaInicio;

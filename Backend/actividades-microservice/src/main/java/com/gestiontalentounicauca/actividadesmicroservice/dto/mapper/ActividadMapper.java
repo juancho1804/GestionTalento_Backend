@@ -8,8 +8,9 @@ public class ActividadMapper {
     public ActividadMapper() {}
 
     public Actividad toEntity(ActividadRequestDTO actividadRequestDTO) {
-        Actividad actividad = Actividad.builder().nombre(actividadRequestDTO.getNombre()).build();
-        return actividad;
+        //Actividad actividad = Actividad.builder().nombre(actividadRequestDTO.getNombre()).build();
+        //return actividad;
+        return null;
     }
 
     public ActividadResponseDTO toResponse(Actividad actividad) {

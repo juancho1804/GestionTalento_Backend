@@ -12,4 +12,7 @@ public class ActividadRequestDTO {
     private String nombre;
     private String cedulaEncargado;
 
+    private String campoAdicionalBienestar; //Adicional
+    private String campoAdicionalCapacitacion; //Adicional
+
 }

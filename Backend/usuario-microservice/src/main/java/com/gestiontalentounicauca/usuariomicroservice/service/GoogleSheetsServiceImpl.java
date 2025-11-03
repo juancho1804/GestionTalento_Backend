@@ -31,9 +31,11 @@ public class GoogleSheetsServiceImpl implements IGoogleSheetsService{
     public void init() {
         try {
             ClassPathResource resource = new ClassPathResource("credentials.json");
+            System.out.println("paso aqui");
             if (!resource.exists()) {
                 throw new RuntimeException("credentials.json NO encontrado en classpath");
             }
+            System.out.println("paso aqui");
 
             try (InputStream in = resource.getInputStream()) {
                 // Inicialización usando la versión antigua de google-api-client
