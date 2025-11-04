@@ -4,7 +4,10 @@ import com.gestiontalentounicauca.actividadesmicroservice.dto.request.PlanReques
 import com.gestiontalentounicauca.actividadesmicroservice.dto.response.PlanResponseDTO;
 import com.gestiontalentounicauca.actividadesmicroservice.model.Plan;
 import com.gestiontalentounicauca.actividadesmicroservice.model.TipoPlan;
+import org.springframework.stereotype.Component;
 
+
+@Component
 public class PlanMapper {
     public PlanMapper() {}
     public Plan toEntity(PlanRequestDTO planRequestDTO) {

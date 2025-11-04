@@ -9,5 +9,5 @@ import lombok.Data;
 public class ParticipanteResponseDTO {
     private Long idParticipante;
     private UsuarioResponseDTO usuario;
-    private ActividadResponseDTO actividad;
+    private Long idActividad;
 }

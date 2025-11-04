@@ -1,5 +1,6 @@
 package com.gestiontalentounicauca.actividadesmicroservice.service;
 
+import com.gestiontalentounicauca.actividadesmicroservice.dto.mapper.ActividadFactory;
 import com.gestiontalentounicauca.actividadesmicroservice.dto.request.ParticipanteRequestDTO;
 import com.gestiontalentounicauca.actividadesmicroservice.dto.response.ActividadResponseDTO;
 import com.gestiontalentounicauca.actividadesmicroservice.dto.response.ParticipanteResponseDTO;
@@ -47,9 +48,7 @@ public class ParticipanteServiceImpl {
         //Pasar la actividad a la entidad
         participante.setActividad(actividad);
 
-        //Construir actividadResponse para pasarlo a el participante
-        ActividadResponseDTO actividadResponseDTO =  ActividadResponseDTO.builder().
-                nombre(actividad.getNombre()).build();
+
 
         //Buscar usuario
         UsuarioResponseDTO usuarioResponseDTO = usuariosClient.
@@ -62,7 +61,7 @@ public class ParticipanteServiceImpl {
         participante = participanteRepository.save(participante);
 
         ParticipanteResponseDTO participanteResponseDTO = ParticipanteResponseDTO.builder().idParticipante(participante.getId())
-                .usuario(usuarioResponseDTO).actividad(actividadResponseDTO).build();
+                .usuario(usuarioResponseDTO).idActividad(actividad.getId()).build();
 
 
         return participanteResponseDTO;

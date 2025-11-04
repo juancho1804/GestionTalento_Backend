@@ -83,9 +83,6 @@ public class ActividadServiceImpl implements IActividadService {
         //Crear actividad
         Actividad actividad = actividadFactory.crearActividad(actividadRequestDTO, plan, encargado);
 
-        actividad.setNombre(actividadRequestDTO.getNombre());
-        actividad.setEncargado(encargado);
-        actividad.setPlan(plan);
 
         // Crear objeto encargadoResponse
         ParticipanteResponseDTO encargadoResponse = ParticipanteResponseDTO.builder()
@@ -102,17 +99,7 @@ public class ActividadServiceImpl implements IActividadService {
         participanteRepository.save(encargado);
 
 
-
-        //Crear objeto actividad response
-        ActividadResponseDTO actividadResponseDTO = ActividadResponseDTO.builder()
-                .nombre(actividad.getNombre())
-                .encargado(encargadoResponse)
-                .plan(planMapper.toResponse(plan))
-                .participantes(new ArrayList<>())
-                .build();
-
-
-        return actividadResponseDTO;
+        return actividadFactory.toResponse(actividad,encargadoResponse,planMapper.toResponse(plan),new ArrayList<>());
     }
 
     @Override
