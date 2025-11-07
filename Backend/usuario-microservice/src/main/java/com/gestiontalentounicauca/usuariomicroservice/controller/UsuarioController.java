@@ -35,7 +35,7 @@ public class UsuarioController {
         return new ResponseEntity<>(respuesta,null, HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     public ResponseEntity<UsuarioResponseDTO> obtenerUsuarioPorId(@PathVariable Long id){
         return new ResponseEntity<>(usuarioService.obtenerUsuario(id),null, HttpStatus.OK);
     }

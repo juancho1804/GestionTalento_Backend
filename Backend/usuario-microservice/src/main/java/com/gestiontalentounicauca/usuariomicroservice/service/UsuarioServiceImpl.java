@@ -134,5 +134,4 @@ public class UsuarioServiceImpl implements IUsuarioService {
         return usuarioMapper.toResponse(usuarioModel);
     }
 
-
 }

@@ -9,4 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface UsuariosClient {
     @GetMapping("/cedula/{cedula}")
     ResponseEntity<UsuarioResponseDTO> getUsuarioByCedula(@PathVariable("cedula") String cedula);
+
+    @GetMapping("/id/{id}")
+    ResponseEntity<UsuarioResponseDTO> getUsuarioById(@PathVariable("id") Long id);
 }
