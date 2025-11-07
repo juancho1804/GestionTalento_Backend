@@ -1,20 +1,15 @@
 package com.gestiontalentounicauca.actividadesmicroservice.service;
 
-import com.gestiontalentounicauca.actividadesmicroservice.dto.mapper.ActividadFactory;
 import com.gestiontalentounicauca.actividadesmicroservice.dto.mapper.ParticipanteMapper;
 import com.gestiontalentounicauca.actividadesmicroservice.dto.request.ParticipanteRequestDTO;
-import com.gestiontalentounicauca.actividadesmicroservice.dto.response.ActividadResponseDTO;
 import com.gestiontalentounicauca.actividadesmicroservice.dto.response.ParticipanteResponseDTO;
 import com.gestiontalentounicauca.actividadesmicroservice.model.Actividad;
-import com.gestiontalentounicauca.actividadesmicroservice.model.Evidencia;
 import com.gestiontalentounicauca.actividadesmicroservice.model.Participante;
 import com.gestiontalentounicauca.actividadesmicroservice.repository.ActividadRepository;
 import com.gestiontalentounicauca.actividadesmicroservice.repository.ParticipanteRepository;
 import com.gestiontalentounicauca.actividadesmicroservice.service.client.UsuarioResponseDTO;
 import com.gestiontalentounicauca.actividadesmicroservice.service.client.UsuariosClient;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -56,7 +51,7 @@ public class ParticipanteServiceImpl implements IParticipanteService {
 
 
         //Buscar la actividad
-        Actividad actividad = actividadRepository.findById(participanteRequestDTO.getIdActividad()).get();
+        Actividad actividad = actividadRepository.findById(participanteRequestDTO.getIdActividad()).orElseThrow(()-> new RuntimeException("No se encontro la actividad"));
 
 
         //Verificar que el participante no este relacionado a la actividad
@@ -79,11 +74,10 @@ public class ParticipanteServiceImpl implements IParticipanteService {
         //Guardar participante
         participante = participanteRepository.save(participante);
 
-        ParticipanteResponseDTO participanteResponseDTO = ParticipanteResponseDTO.builder().idParticipante(participante.getId())
+
+
+        return  ParticipanteResponseDTO.builder().idParticipante(participante.getId())
                 .usuario(usuarioResponseDTO).idActividad(actividad.getId()).build();
-
-
-        return participanteResponseDTO;
 
     }
 
@@ -135,11 +129,9 @@ public class ParticipanteServiceImpl implements IParticipanteService {
         //Guardar participante
         participante = participanteRepository.save(participante);
 
-        ParticipanteResponseDTO participanteResponseDTO = ParticipanteResponseDTO.builder().idParticipante(participante.getId())
+
+        return ParticipanteResponseDTO.builder().idParticipante(participante.getId())
                 .usuario(usuarioResponseDTO).idActividad(actividad.getId()).build();
-
-
-        return participanteResponseDTO;
     }
 
     @Override
