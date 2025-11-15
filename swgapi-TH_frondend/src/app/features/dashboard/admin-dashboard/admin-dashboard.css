@@ -1,0 +1,280 @@
+.dashboard-bg {
+  background: #F7FAFC;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+  padding: 20px 0 30px 0;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.title {
+  color: #0056A6;
+  font-weight: 700;
+  font-size: 2.2rem;
+  margin-bottom: 40px;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  margin: 24px auto;
+  max-width: 1080px;
+}
+.resumen-card, .config-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 1px 12px rgba(0,0,0,0.10);
+  padding: 0;
+  min-height: 430px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.grafico-container {
+  width: 100%;
+  max-width: 340px;
+  margin: 0 auto;
+  /* limita el gráfico */
+}
+
+.totales-container {
+  margin-top: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.totales-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.12rem;
+  color: #4A5568;
+}
+.totales-row.ejecutado span:last-child {
+  color: #D22630;
+  font-weight: 700;
+}
+.totales-row.disponible span:last-child {
+  color: #28A745;
+  font-weight: 700;
+}
+
+.config-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.config-icon {
+  font-size: 60px !important;
+  color: #0056A6;
+  width: auto;
+  height: auto;
+  align-items: center;
+  justify-content: center;
+  display: inline-flex;
+  overflow: visible !important;
+}
+
+.config-title {
+  font-size: 1.18rem;
+  font-weight: 600;
+  color: #29547F;
+  margin-bottom: 10px;
+}
+
+.config-btn {
+  padding: 10px 26px;
+  font-size: 1rem;
+  border-radius: 8px;
+  font-weight: 700;
+  background: #0056A6;
+  color: #fff;
+  white-space: nowrap;
+  box-sizing: inline-block;
+  max-width: 100%;
+}
+
+
+/*Segunda parte*/
+
+.planes {
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+  display: flex;
+  flex-direction: column;
+}
+
+.section-title{
+  color: #0056A6;
+  font-size: 1.75rem;
+  margin-bottom: 24px;
+  padding-left: 12px;
+}
+
+.planes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.plan-card {
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+  padding: 0;
+  margin: 0;
+  flex-wrap: wrap;
+  gap: 12px;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+.plan-card:hover {
+  box-shadow: 0 5px 24px rgba(0,0,0,0.3);
+  transform: translateY(-4px);
+  cursor: pointer;
+}
+
+.plan-card-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.plan-info {
+  flex: 1;
+}
+
+.plan-row .plan-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #23416e;
+  margin-bottom: 12px;
+}
+
+.plan-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 32px;
+}
+
+.plan-label {
+  font-size: 1rem;
+  color: #515a6e;
+  font-weight: 500;
+}
+
+.plan-value {
+  font-size: 1.15rem;
+  margin-top: 4px;
+}
+
+.plan-value.blue {
+  color: #0056A6;
+  font-weight: 700;
+}
+
+.plan-value.green {
+  color: #28A745;
+  font-weight: 700;
+}
+
+.plan-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+}
+
+.plan-btn {
+  font-weight: 600 !important;
+  letter-spacing: 0.02em;
+  border-radius: 8px !important;
+  min-width: 130px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  box-shadow: none !important;
+}
+
+.btn-detalles {
+  border: 1px solid #0056A6 !important;
+  color: #0056A6 !important;
+  background: #fff !important;
+}
+
+.btn-detalles:hover {
+  background: #0056A6 !important;
+  color: #fff !important;
+}
+
+.btn-reportes {
+  border: 1px solid #28A745 !important;
+  color: #28A745 !important;
+  background: #fff !important;
+}
+
+.btn-reportes:hover {
+  background: #28A745 !important;
+  color: #fff !important;
+}
+
+
+/*Tercera parte*/
+
+.accesos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+}
+
+.acceso-card {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 2px 12px rgb(58 123 191 / 0.1);
+  border: 1.5px solid #E2E8F0;
+  text-align: center;
+  padding: 34px 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: box-shadow 0.18s, border-color 0.18s;
+  cursor: pointer;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  text-decoration: none;
+}
+
+.acceso-card:hover {
+  box-shadow: 0 6px 20px rgb(58 123 191 / 0.2);
+  border-color: #0056A6;
+  transform: translateY(-4px);
+}
+
+.acceso-icon {
+  font-size: 1.7rem !important;
+  color: #0056A6;
+  margin-bottom: 20px;
+  width: auto;
+  height: auto;
+}
+
+.acceso-titulo {
+  font-size: 1.3rem;
+  color: #222;
+  font-weight: 700;
+  margin-top: 2px;
+  margin-bottom: 0;
+}

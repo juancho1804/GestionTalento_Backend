@@ -1,0 +1,312 @@
+.bg-detalles{
+   background: #f7f4fc;
+  min-width: 100vh;
+  font-family: arial, sans-serif;
+  padding: 20px 0 30px 0;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+
+.header-card {
+  margin-bottom: 20px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.plan-type-beadge {
+  background-color: #3f51b5;
+  color: white;
+  padding: 6px 16px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.estado-badge {
+  background-color: #4caf50;
+  color: white;
+  padding: 6px 16px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.header-right {
+  display: flex;
+  gap: 12px;
+}
+
+.header-right button {
+  border-radius: 20px;
+  padding: 0 20px;
+  font-weight: 500;
+  height: 40px;
+}
+
+.activity-title {
+  color: #333;
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0;
+  margin-bottom: 8px;
+  line-height: 1.2;
+}
+
+.plan-info {
+  color: #666;
+  font-size: 15px;
+  font-weight: 400;
+  margin: 0;
+}
+
+/* Estilos específicos para los botones */
+.back-button {
+  border-color: #3f51b5;
+  color: #3f51b5;
+}
+.edit-button {
+  background-color: #3f51b5;
+  color: #f7f4fc !important;
+}
+.back-button mat-icon,
+.edit-button mat-icon {
+  margin-right: 5px;
+}
+
+/*Segunda parte del mat doble*/
+
+.cards-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+  gap: 24px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.info-card, .budget-card {
+  padding: 0;
+  display: flex;
+}
+
+.card-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid #e0e0e0;
+  font-size: 20px;
+  font-weight: 560;
+  color: #3f51b5;
+}
+
+.card-title mat-icon {
+  color: #3f51b5;
+  font-size: 24px;
+  width: 24px;
+  height: 24px;
+}
+
+.card-content {
+  padding: 24px;
+}
+
+/* Estilos para las filas de información */
+.info-row {
+  display: grid;
+  align-items: center;
+  margin-bottom: 2px;
+  gap: 5px;
+}
+
+.info-label {
+  width: 280px;
+  color: #333;
+  font-size: 17px;
+  margin: 0;
+}
+
+.info-value {
+  flex: 1;
+}
+
+.estado-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.estado-label {
+  width: 180px;
+  flex-shrink: 0;
+  font-weight: 500;
+  color: #333;
+  font-size: 14px;
+  margin: 0;
+}
+
+.estado-value {
+  flex: 1;
+}
+
+/* Separador */
+.info-separator {
+  height: 1px;
+  background-color: #e0e0e0;
+  margin: 20px 0;
+  width: 100%;
+}
+
+/* Iconos en las filas */
+.info-row mat-icon,
+.estado-section mat-icon {
+  color: #666;
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+/* Estilos para los form fields */
+mat-form-field {
+  width: 100%;
+}
+
+::ng-deep .mat-mdc-form-field {
+  display: block;
+}
+
+/*tercera amat-card*/
+
+.datos-capacitacion-card {
+  padding: 2rem;
+}
+
+
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+
+  mat-icon {
+    color: #3f51b5;
+  }
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* <-- 2 por fila fijo */
+  gap: 1px 1px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.form-field mat-icon {
+  color: #757575;
+  margin-bottom: 0.25rem;
+}
+
+label {
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.input-small {
+  width: 80%;
+}
+
+
+/*Nuevo*/
+
+.participantes-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f8fafc;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  border: 1px solid #e5e7eb;
+
+  .left {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    .titulo {
+      font-weight: 500;
+      color: #1e3a8a;
+    }
+
+    .badge {
+      font-size: 0.85rem;
+      font-weight: 500;
+      padding: 2px 8px;
+      border-radius: 6px;
+      margin-left: 4px;
+
+      &.inscritos {
+        background: #e0f2fe;
+        color: #0369a1;
+      }
+
+      &.asistieron {
+        background: #dcfce7;
+        color: #166534;
+      }
+    }
+  }
+
+  .right {
+    display: flex;
+    gap: 0.5rem;
+
+    .btn-importar {
+      border: 1px solid #0369a1;
+      color: #0369a1;
+      font-weight: 500;
+    }
+
+    .btn-agregar {
+      background-color: #16a34a;
+      color: white;
+      font-weight: 500;
+
+      &:hover {
+        background-color: #15803d;
+      }
+    }
+
+    mat-icon {
+      font-size: 18px;
+      margin-right: 4px;
+    }
+  }
+}

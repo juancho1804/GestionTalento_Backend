@@ -1,0 +1,86 @@
+.login-root {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f7fafd;
+}
+
+.login-card {
+  display: flex;
+  background: white;
+  box-shadow: 0 4px 24px rgba(58,123,191,0.08);
+  border-radius: 18px;
+  overflow: hidden;
+  width: 820px;
+  min-height: 470px;
+}
+
+.login-img-side {
+  width: 50%;
+  position: relative;
+  background: #dde7f7;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  flex-direction: column;
+}
+
+.img-campus {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.logo-uni {
+  position: absolute;
+  left: 18px;
+  bottom: 18px;
+  width: 80px;
+  height: 80px;
+  background: white;
+  border-radius: 15px;
+  padding: 4px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.09);
+}
+
+.login-form-side {
+  width: 50%;
+  padding: 60px 38px 38px 38px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.login-form-side h2 {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.login-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+  color: #7a8c9e;
+}
+
+.w100 {
+  width: 100%;
+}
+
+.forgot-link { color: #1877f2; text-decoration: none; }
+.forgot-link:hover { color: #125ac2; }
+
+.login-footer {
+  margin-top: 24px;
+  text-align: center;
+  color: #7a8c9e;
+  background: none;
+}
+
+/* Responsive agregalo si lo necesitas */
+@media screen and (max-width: 600px) {
+  .login-card { flex-direction: column; width: 98vw; min-width: 0; }
+  .login-img-side, .login-form-side { width: 100%; }
+}

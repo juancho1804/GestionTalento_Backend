@@ -1,0 +1,120 @@
+.actividades-container {
+  padding: 1rem 1.5rem;
+  background-color: #f9fafb;
+  border-radius: 8px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header h2 {
+  margin: 0;
+  color: #1f2937;
+}
+
+.header p {
+  margin: 0;
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+.btn-crear {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background-color: #0056a6 !important;
+}
+
+.filtros {
+  margin: 1rem 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.buscador {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 0.4rem 0.8rem;
+}
+
+.buscador mat-icon {
+  color: #9ca3af;
+  margin-right: 0.5rem;
+}
+
+.buscador input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 0.95rem;
+}
+
+.filtro-estado {
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 0.4rem 0.8rem;
+  background: white;
+}
+
+.tabla-wrapper {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  overflow: hidden;
+}
+
+.tabla-actividades {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabla-actividades th {
+  background: #0056a6;
+  color: white;
+  text-align: left;
+  padding: 0.75rem;
+}
+
+.tabla-actividades td {
+  padding: 0.75rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.estado {
+  padding: 0.2rem 0.6rem;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.estado.completada { background: #dcfce7; color: #15803d; }
+.estado.programada { background: #fff7ed; color: #f97316; }
+.estado.pendiente { background: #fef2f2; color: #b91c1c; }
+
+.rojo { color: #b91c1c; font-weight: bold; }
+
+.acciones button {
+  margin-right: 0.3rem;
+}
+
+.loading {
+  text-align: center;
+  padding: 2rem;
+  color: #6b7280;
+}
+
+.tabla-header {
+  padding: 0.75rem 1rem;
+  background-color: #f3f4f6;
+  border-bottom: 1px solid #e5e7eb;
+  font-weight: 600;
+  color: #374151;
+}

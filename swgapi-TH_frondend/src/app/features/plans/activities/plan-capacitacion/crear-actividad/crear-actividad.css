@@ -1,0 +1,45 @@
+.crear-bg {
+  background: #074684;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 32px;
+}
+
+.actividad-container {
+  width: 100%;
+  max-width: 720px;
+}
+
+.actividad-header {
+  background-color: #fdfdfd;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0 20px 0 20px;
+  border-radius: 16px;
+  gap: 5px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.btn-volver {
+  font-weight: 500;
+  margin-bottom: 14px;
+  margin-left: -6px;
+  margin-top: 15px;
+  background-color: white;
+}
+
+.actividad-titulo {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin: 0 0 6px 0;
+}
+
+.titulo-plan {
+  font-size: 1.05rem;
+  font-weight: 400;
+  margin: 0 0 22px 0;
+}

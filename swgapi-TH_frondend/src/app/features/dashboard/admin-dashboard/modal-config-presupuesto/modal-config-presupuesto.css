@@ -1,0 +1,143 @@
+.modal-title {
+  background: #0056A6;
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: 700;
+  padding: 20px 24px 20px 24px;
+  border-radius: 12px 12px 0 0;
+}
+
+.mat-dialog-content {
+  background: #f7fafc;
+  border-radius: 0 0 12px 12px;
+}
+
+input[matInput] {
+  border: 1px solid #E2E8F0;
+  border-radius: 4px;
+  font-size: 1rem;
+  padding: 6px 12px;
+  width: 120px;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 12px;
+  margin-bottom: 8px;
+}
+
+thead th, tbody td {
+  padding: 12px 10px;
+  border: 1px solid #e2e8f0;
+}
+
+tbody tr.even-row {
+  background-color: #f7fafc;
+}
+
+
+tbody tr.even-row {
+  background-color: #f7fafc;
+}
+
+tbody td {
+  padding: 8px;
+  color: #2D3748;
+  border-bottom: 1px solid #e2e8f0;
+}
+.money-input {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 1rem;
+  text-align: right;
+  padding-right: 12px;
+  width: 140px;
+}
+
+.total-row {
+  background: #eaf5ee;
+  font-weight: 600;
+  color: #28a745;
+}
+
+.total-row td {
+  border: 1px solid #e2e8f0;
+}
+
+
+.alert-error, .alert-success {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  border-radius: 10px;
+  margin-top: 20px;
+  font-size: 1.05rem;
+}
+
+.alert-success {
+  background: #dff0d8;
+  color: #3c763d;
+  border: 1px solid #d6e9c6;
+}
+
+.alert-error {
+  background: #f2dede;
+  color: #a94442;
+  border: 1px solid #ebccd1;
+}
+
+
+.mat-dialog-actions {
+  justify-content: flex-end;
+  gap: 18px;
+  margin-top: 24px;
+  padding-bottom: 16px;
+}
+
+button[mat-raised-button] {
+  border-radius: 20px;
+  min-width: 140px;
+  padding: 12px 24px;
+  font-size: 1rem;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 3px 8px;
+}
+
+button[mat-raised-button][color="primary"] {
+  background-color: #28a745;
+  color: #fff;
+}
+
+button[mat-button][color="warn"] {
+  color: #6c757d;
+  border: 1px solid #6c757d;
+  background: #fff;
+}
+
+
+input[matInput][formControlName='saldoGlobal'] {
+  width: 200px;
+  margin-bottom: 16px;
+}
+
+input[matInput][formControlName="saldoGlobal"] {
+  background: #f7fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 1.15rem;
+  padding: 10px 18px;
+  width: 100%;
+  color: #2d3748;
+  margin-top: 2px;
+  margin-bottom: 18px;
+  box-sizing: border-box;
+}
+mat-label {
+  color: #2d3748;
+  font-weight: 700;
+  font-size: 1.05rem;
+  margin-bottom: 4px;
+  display: block;
+}

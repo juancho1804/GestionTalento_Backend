@@ -1,0 +1,31 @@
+<mat-toolbar color="primary" class="header">
+  <div class="logo-section" mat-toolbar-row>
+    <button mat-icon-button>
+      <mat-icon>music_note</mat-icon>
+    </button>
+    <span class="logo-text">SWGAPI</span>
+  </div>
+
+  <nav class="nav-section" mat-toolbar-row>
+    <a mat-button routerLink="/actividades" routerLinkActive="active" class="nav-item">Actividades</a>
+    <a mat-button routerLink="/usuarios" routerLinkActive="active" class="nav-item">Usuario</a>
+
+    <button mat-icon-button [matMenuTriggerFor]="profileMenu" aria-label="Menú de usuario">
+      <mat-icon>account_circle</mat-icon>
+    </button>
+    <mat-menu #profileMenu="matMenu">
+      <button mat-menu-item routerLink="/perfil">
+        <mat-icon>person</mat-icon>
+        Perfil
+      </button>
+      <button mat-menu-item routerLink="/configuracion">
+        <mat-icon>settings</mat-icon>
+        Configuración
+      </button>
+      <button mat-menu-item (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        Cerrar Sesión
+      </button>
+    </mat-menu>
+  </nav>
+</mat-toolbar>
