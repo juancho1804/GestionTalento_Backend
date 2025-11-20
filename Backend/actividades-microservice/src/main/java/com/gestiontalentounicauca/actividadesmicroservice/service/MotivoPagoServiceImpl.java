@@ -32,6 +32,20 @@ public class MotivoPagoServiceImpl implements IMotivoPagoService {
     @Override
     public MotivoPagoResponseDTO crearMotivoPago(MotivoPagoRequestDTO motivoPagoRequestDTO) {
 
+        //Validar que el monto sea mayor a 0
+        if(motivoPagoRequestDTO.getMonto()<1){
+            throw new RuntimeException("El monto no puede ser inferior a 1");
+        }
+
+
+        //Buscar actividad
+        Actividad actividad = actividadRepository.findById(motivoPagoRequestDTO.getIdActividad()).orElseThrow(()->new EntityNotFoundException("Actividad no encontrada"));
+
+        //Validar que la actividad sea de capacitacion o bienestar
+        if (!(actividad.getPlan().getTipoPlan().equals(TipoPlan.CAPACITACION) || actividad.getPlan().getTipoPlan().equals(TipoPlan.BIENESTAR))) {
+            throw new RuntimeException("Solo las actividades de capacitación o bienestar pueden tener encuestas");
+        }
+
         TipoMotivoPago tipoMotivoPago;
         //Si el id del tipo se envia, se busca
         if(motivoPagoRequestDTO.getIdTipoMotivoPago()!=null){
@@ -48,13 +62,10 @@ public class MotivoPagoServiceImpl implements IMotivoPagoService {
             }
         }
 
-        //Buscar actividad
-        Actividad actividad = actividadRepository.findById(motivoPagoRequestDTO.getIdActividad()).orElseThrow(()->new EntityNotFoundException("Actividad no encontrada"));
-
-        //Validar que la actividad sea de capacitacion o bienestar
-        if (!(actividad.getPlan().getTipoPlan().equals(TipoPlan.CAPACITACION) || actividad.getPlan().getTipoPlan().equals(TipoPlan.BIENESTAR))) {
-            throw new RuntimeException("Solo las actividades de capacitación o bienestar pueden tener encuestas");
+        if(motivoPagoRepository.findByActividadIdAndDominioId(actividad.getId(), tipoMotivoPago.getId()).isPresent()){
+            throw new RuntimeException("Ya existe un motivo de pago con esta actividad");
         }
+
         MotivoPago motivoPago = motivoPagoRepository.save(motivoPagoMapper.ToEntity(motivoPagoRequestDTO, tipoMotivoPago, actividad));
 
         return motivoPagoMapper.toResponseDTO(motivoPago);
