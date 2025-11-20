@@ -5,6 +5,7 @@ import com.gestiontalentounicauca.actividadesmicroservice.dto.request.EncuestaRe
 import com.gestiontalentounicauca.actividadesmicroservice.dto.response.EncuestaResponseDTO;
 import com.gestiontalentounicauca.actividadesmicroservice.model.Encuesta;
 import com.gestiontalentounicauca.actividadesmicroservice.model.Participante;
+import com.gestiontalentounicauca.actividadesmicroservice.model.TipoPlan;
 import com.gestiontalentounicauca.actividadesmicroservice.repository.EncuestaRepository;
 import com.gestiontalentounicauca.actividadesmicroservice.repository.ParticipanteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,10 +34,18 @@ public class EncuestaServiceImpl implements IEncuestaService {
         //Validar que el participante existe
         Participante participante = participanteRepository.findById(encuestaRequestDTO.getIdParticipante()).orElseThrow(()-> new RuntimeException("Participante no encontrado"));
 
+
+        TipoPlan tipo = participante.getActividad().getPlan().getTipoPlan();
+        //Validar que la actividad sea de capacitacion o bienestar
+        if (!(tipo.equals(TipoPlan.CAPACITACION) || tipo.equals(TipoPlan.BIENESTAR))) {
+            throw new RuntimeException("Solo las actividades de capacitación o bienestar pueden tener encuestas");
+        }
+
         //Validar que el participante ya dio su encuesta
         if(encuestaRepository.existsByParticipante_Id(participante.getId())){
             throw new RuntimeException("La encuesta ya existe en el sistema");
         }
+
 
 
         Encuesta encuesta = Encuesta.builder()
@@ -53,9 +62,11 @@ public class EncuestaServiceImpl implements IEncuestaService {
 
         Encuesta encuesta = encuestaRepository.findById(id).orElseThrow(()-> new RuntimeException("Encuesta no encontrada"));
 
+        /*
         if(!encuesta.getParticipante().getId().equals(encuestaRequestDTO.getIdParticipante())){
             encuesta.setParticipante(participanteRepository.findById(encuestaRequestDTO.getIdParticipante()).orElseThrow(()-> new RuntimeException("Participante no encontrado")));
         }
+         */
         encuesta.setCalificacion(encuestaRequestDTO.getCalificacion());
 
         return encuestaMapper.toResponseDTO(encuestaRepository.save(encuesta));
