@@ -1,6 +1,7 @@
 package com.gestiontalentounicauca.actividadesmicroservice.service;
 
-import com.gestiontalentounicauca.actividadesmicroservice.dto.mapper.ActividadFactory;
+import com.gestiontalentounicauca.actividadesmicroservice.dto.mapper.ActividadMapper;
+import com.gestiontalentounicauca.actividadesmicroservice.dto.mapper.ParticipanteMapper;
 import com.gestiontalentounicauca.actividadesmicroservice.dto.mapper.PlanMapper;
 import com.gestiontalentounicauca.actividadesmicroservice.dto.request.ActividadRequestDTO;
 import com.gestiontalentounicauca.actividadesmicroservice.dto.response.ActividadResponseDTO;
@@ -11,6 +12,7 @@ import com.gestiontalentounicauca.actividadesmicroservice.repository.Participant
 import com.gestiontalentounicauca.actividadesmicroservice.repository.PlanRepository;
 import com.gestiontalentounicauca.actividadesmicroservice.service.client.UsuarioResponseDTO;
 import com.gestiontalentounicauca.actividadesmicroservice.service.client.UsuariosClient;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -33,8 +35,10 @@ public class ActividadServiceImpl implements IActividadService {
     @Autowired
     private UsuariosClient usuariosClient;
     @Autowired
-    private ActividadFactory actividadFactory;
+    private ActividadMapper actividadMapper;
 
+    @Autowired
+    private IParticipanteService participanteService;
 
     //Metodos auxiliares
     private void validarActividadRequestDTO(ActividadRequestDTO actividadRequestDTO) {
@@ -61,60 +65,163 @@ public class ActividadServiceImpl implements IActividadService {
         return usuario.getBody();
     }
 
+    @Transactional
     @Override
-    public ActividadResponseDTO crearActividad(ActividadRequestDTO actividadRequestDTO) {
+    public ActividadResponseDTO crearActividad(ActividadRequestDTO dto) {
 
-        validarActividadRequestDTO(actividadRequestDTO);
+        validarActividadRequestDTO(dto);
 
-        // Buscar el plan asociado a la actividad
-        Plan plan = planRepository.findById(actividadRequestDTO.getPlanId()).orElseThrow(() -> new RuntimeException("El plan no existe"));
+        //Buscar plan
+        Plan plan = planRepository.findById(dto.getPlanId())
+                .orElseThrow(() -> new RuntimeException("El plan no existe"));
 
-        //Buscar el usuario que se encargará de la actividad
-        UsuarioResponseDTO usuario = obtenerUsuarioPorCedula(actividadRequestDTO.getCedulaEncargado());
+        TipoPlan tipoPlan = plan.getTipoPlan();
 
-        // Crear objeto encargado
-        Participante encargado = new Participante();
+        //Obtener usuario
+        UsuarioResponseDTO usuarioEncargado = obtenerUsuarioPorCedula(dto.getCedulaEncargado());
 
-        //Pasar id del usuario al encargado
-        encargado.setIdUsuario(usuario.getId());
-        //Guardar encargado
-        encargado = participanteRepository.save(encargado);
+        //Obtener orientador(en caso de que sea actividad de bienestar o capacitacion)
+        Long idUsuarioOrientador = null;
 
-        //Crear actividad
-        Actividad actividad = actividadFactory.crearActividad(actividadRequestDTO, plan, encargado);
+        if (tipoPlan == TipoPlan.BIENESTAR || tipoPlan == TipoPlan.CAPACITACION) {
+            if (dto.getCedulaOrientador() != null) {
+                idUsuarioOrientador = obtenerUsuarioPorCedula(dto.getCedulaOrientador()).getId();
+            }
+        }
 
+        //Crear Actividad
+        Actividad actividad = new Actividad();
+        actividad.setNombre(dto.getNombre());
+        actividad.setPlan(plan);
+        /*
+        actividad.setIdEncargado(usuarioEncargado.getId());
+        actividad.setIdOrientador(idOrientador);
 
-        // Crear objeto encargadoResponse
-        ParticipanteResponseDTO encargadoResponse = ParticipanteResponseDTO.builder()
-                .idParticipante(encargado.getId())
-                .usuario(usuario)
-                .build();
+         */
 
-        //Guardar actividad
+        // Guardar actividad
         actividad = actividadRepository.save(actividad);
 
-        //Asignar actividad a encargado
-        encargado.setActividad(actividad);
-        //"Actualizar" encargado
-        participanteRepository.save(encargado);
+        //Crear Participante para ENCARGADO
+        Participante participanteEncargado = new Participante();
+        participanteEncargado.setIdUsuario(usuarioEncargado.getId());
+        participanteEncargado.setActividad(actividad);
+        participanteEncargado = participanteRepository.save(participanteEncargado);
 
+        // 6) Crear participante orientador si aplica
+        Participante participanteOrientador = null;
+        if (idUsuarioOrientador != null) {
+            participanteOrientador = new Participante();
+            participanteOrientador.setIdUsuario(idUsuarioOrientador);
+            participanteOrientador.setActividad(actividad);
+            participanteOrientador = participanteRepository.save(participanteOrientador);
+        }
 
-        return actividadFactory.toResponse(actividad,encargadoResponse,planMapper.toResponse(plan),new ArrayList<>());
+        actividad.setIdEncargado(participanteEncargado.getId());
+        actividad.setIdOrientador(participanteOrientador != null ? participanteOrientador.getId() : null);
+
+        //Armar respuesta
+        ParticipanteResponseDTO encargadoResponse = ParticipanteResponseDTO.builder()
+                .idParticipante(participanteEncargado.getId())
+                .usuario(usuarioEncargado)
+                .build();
+
+        return actividadMapper.toResponse(actividad, encargadoResponse,planMapper.toResponse(plan),new ArrayList<>());
     }
 
+
+    @Transactional
     @Override
-    public ActividadResponseDTO actualizarActividad(Long id, ActividadRequestDTO actividadRequestDTO) {
-        return null;
+    public ActividadResponseDTO actualizarActividad(Long id, ActividadRequestDTO dto) {
+
+        validarActividadRequestDTO(dto);
+
+        // 1) Buscar actividad
+        Actividad actividad = actividadRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("La actividad a actualizar no existe"));
+
+        // 2) Buscar plan
+        Plan plan = planRepository.findById(dto.getPlanId())
+                .orElseThrow(() -> new RuntimeException("El plan no existe"));
+
+        TipoPlan tipoPlan = plan.getTipoPlan();
+
+        // 3) Obtener usuario encargado
+        UsuarioResponseDTO usuarioEncargado = obtenerUsuarioPorCedula(dto.getCedulaEncargado());
+
+        // 4) Obtener usuario orientador si corresponde
+        Long idUsuarioOrientador = null;
+        if (tipoPlan == TipoPlan.BIENESTAR || tipoPlan == TipoPlan.CAPACITACION) {
+            if (dto.getCedulaOrientador() != null) {
+                idUsuarioOrientador = obtenerUsuarioPorCedula(dto.getCedulaOrientador()).getId();
+            }
+        }
+
+        // 5) Actualizar datos principales de Actividad
+        actividad.setNombre(dto.getNombre());
+        actividad.setPlan(plan);
+        actividad.setIdEncargado(null);   // se asigna después
+        actividad.setIdOrientador(null);  // se asigna después
+
+        actividad = actividadRepository.save(actividad); // guardar primero
+
+        // 6) Eliminar participantes anteriores
+        actividad.getParticipantes().clear();  // orphanRemoval lo elimina de la DB
+
+        // 7) Crear participante ENCARGADO
+        Participante participanteEncargado = new Participante();
+        participanteEncargado.setIdUsuario(usuarioEncargado.getId());
+        participanteEncargado.setActividad(actividad);
+        participanteEncargado = participanteRepository.save(participanteEncargado);
+
+        // 8) Crear participante ORIENTADOR si aplica
+        Participante participanteOrientador = null;
+        if (idUsuarioOrientador != null) {
+            participanteOrientador = new Participante();
+            participanteOrientador.setIdUsuario(idUsuarioOrientador);
+            participanteOrientador.setActividad(actividad);
+            participanteOrientador = participanteRepository.save(participanteOrientador);
+        }
+
+        // 9) Asociar IDs de PARTICIPANTE a Actividad (no idUsuario)
+        actividad.setIdEncargado(participanteEncargado.getId());
+        actividad.setIdOrientador(
+                participanteOrientador != null ? participanteOrientador.getId() : null
+        );
+
+        actividad = actividadRepository.save(actividad);
+
+        // 10) Construir respuesta
+        ParticipanteResponseDTO encargadoResponse = ParticipanteResponseDTO.builder()
+                .idParticipante(participanteEncargado.getId())
+                .usuario(usuarioEncargado)
+                .build();
+
+        return actividadMapper.toResponse(
+                actividad,
+                encargadoResponse,
+                planMapper.toResponse(plan),
+                new ArrayList<>()
+        );
     }
+
+
 
     @Override
     public Boolean eliminarActividad(Long id) {
-        return null;
+
+        Actividad actividad = actividadRepository.findById(id).orElseThrow(() -> new RuntimeException("La actividad a eliminar no existe"));
+        actividadRepository.delete(actividad);
+
+        return true;
     }
 
     @Override
     public ActividadResponseDTO getActividad(Long id) {
-        return null;
+        Actividad actividad = actividadRepository.findById(id).orElseThrow(() -> new RuntimeException("La actividad a buscar no existe"));
+        System.out.println("Buscando participante con id"+actividad.getIdEncargado());
+        ParticipanteResponseDTO encargado = participanteService.encontrarPorId(actividad.getIdEncargado());
+        return actividadMapper.toResponse(actividad, encargado, planMapper.toResponse(actividad.getPlan()), null);
     }
 
     @Override

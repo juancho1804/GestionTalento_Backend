@@ -12,4 +12,5 @@ public interface IParticipanteService {
     Boolean eliminarParticipante(Long idParticipante);
     List<ParticipanteResponseDTO> listarParticipantes();
     ParticipanteResponseDTO encontrarPorId(Long idParticipante);
+    ParticipanteResponseDTO encontrarPorCedula(String cedula);
 }

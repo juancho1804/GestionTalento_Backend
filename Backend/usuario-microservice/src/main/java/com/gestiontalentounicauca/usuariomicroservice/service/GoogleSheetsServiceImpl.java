@@ -1,5 +1,8 @@
 package com.gestiontalentounicauca.usuariomicroservice.service;
 
+import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
+import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
+import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.sheets.v4.Sheets;
@@ -7,6 +10,8 @@ import com.google.api.services.sheets.v4.SheetsScopes;
 import com.google.api.services.sheets.v4.model.Sheet;
 import com.google.api.services.sheets.v4.model.Spreadsheet;
 import com.google.api.services.sheets.v4.model.ValueRange;
+import com.google.auth.http.HttpCredentialsAdapter;
+import com.google.auth.oauth2.GoogleCredentials;
 import jakarta.annotation.PostConstruct;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
@@ -39,23 +44,21 @@ public class GoogleSheetsServiceImpl implements IGoogleSheetsService{
 
             try (InputStream in = resource.getInputStream()) {
                 // Inicialización usando la versión antigua de google-api-client
-                com.google.api.client.googleapis.auth.oauth2.GoogleCredential credential =
-                        com.google.api.client.googleapis.auth.oauth2.GoogleCredential.fromStream(in)
+                GoogleCredentials credentials =
+                        GoogleCredentials.fromStream(in)
                                 .createScoped(List.of(SheetsScopes.SPREADSHEETS_READONLY, DriveScopes.DRIVE_READONLY));
 
                 sheetsService = new Sheets.Builder(
-                        com.google.api.client.googleapis.javanet.GoogleNetHttpTransport.newTrustedTransport(),
-                        com.google.api.client.json.jackson2.JacksonFactory.getDefaultInstance(),
-                        credential)
-                        .setApplicationName("Spring Google Forms Service")
-                        .build();
+                        GoogleNetHttpTransport.newTrustedTransport(),
+                        JacksonFactory.getDefaultInstance(),
+                        new HttpCredentialsAdapter(credentials)
+                ).setApplicationName("Spring Google Forms Service").build();
 
                 driveService = new Drive.Builder(
-                        com.google.api.client.googleapis.javanet.GoogleNetHttpTransport.newTrustedTransport(),
-                        com.google.api.client.json.jackson2.JacksonFactory.getDefaultInstance(),
-                        credential)
-                        .setApplicationName("Spring Google Forms Service")
-                        .build();
+                        GoogleNetHttpTransport.newTrustedTransport(),
+                        JacksonFactory.getDefaultInstance(),
+                        new HttpCredentialsAdapter(credentials)
+                ).setApplicationName("Spring Google Forms Service").build();
             }
         } catch (IOException | GeneralSecurityException e) {
             throw new RuntimeException("Error inicializando GoogleSheetsServiceImpl: " + e.getMessage(), e);

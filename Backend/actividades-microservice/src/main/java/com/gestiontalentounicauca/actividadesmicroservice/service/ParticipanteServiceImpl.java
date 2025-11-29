@@ -163,11 +163,25 @@ public class ParticipanteServiceImpl implements IParticipanteService {
     public ParticipanteResponseDTO encontrarPorId(Long id) {
 
         if(id==null) {
-            throw new RuntimeException("La identificacion no puede estar vacia");
+            throw new RuntimeException("El id no puede estar vacio");
         }
-
         Participante participanteModel = participanteRepository.findById(id).orElseThrow(()->new RuntimeException("No se encontro participante"));
 
         return participanteMapper.toResponse(participanteModel,usuariosClient.getUsuarioById(participanteModel.getIdUsuario()).getBody());
     }
+
+    @Override
+    public ParticipanteResponseDTO encontrarPorCedula(String cedula) {
+        if(cedula==null) {
+            throw new RuntimeException("La cedula no puede estar vacia");
+        }
+        UsuarioResponseDTO  usuarioResponseDTO =  usuariosClient.getUsuarioByCedula(cedula).getBody();
+
+
+
+
+        return null;
+    }
+
+
 }

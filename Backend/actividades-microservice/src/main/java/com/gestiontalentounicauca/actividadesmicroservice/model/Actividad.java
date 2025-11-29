@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Table(name = "actividad")
@@ -12,7 +13,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public abstract class Actividad {
+public  class Actividad {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,17 +22,23 @@ public abstract class Actividad {
     @Column(nullable = false)
     private String nombre;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_encargado")
-    private Participante encargado;
+    @Column
+    private Long idEncargado;
+
+    @Column
+    private Long idOrientador;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "plan_id")
     private Plan plan;
 
-    @OneToMany(mappedBy = "actividad", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "actividad", cascade = CascadeType.ALL,orphanRemoval = true)
     @JsonManagedReference
-    private List<Participante> participantes;
+    private List<Participante> participantes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "actividad", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<MotivoPago> motivosPago = new ArrayList<>();
+
 
 
 }

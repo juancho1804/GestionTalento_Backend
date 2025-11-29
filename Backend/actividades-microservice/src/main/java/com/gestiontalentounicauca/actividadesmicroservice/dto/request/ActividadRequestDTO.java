@@ -11,8 +11,6 @@ public class ActividadRequestDTO {
     private Long planId;
     private String nombre;
     private String cedulaEncargado;
-
-    private String campoAdicionalBienestar; //Adicional
-    private String campoAdicionalCapacitacion; //Adicional
+    private String cedulaOrientador;
 
 }

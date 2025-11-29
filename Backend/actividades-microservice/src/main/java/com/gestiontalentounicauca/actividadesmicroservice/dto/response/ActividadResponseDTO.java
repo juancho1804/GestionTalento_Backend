@@ -11,11 +11,13 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@SuperBuilder
-public abstract class ActividadResponseDTO {
+@Builder
+public class ActividadResponseDTO {
 
+    private Long id;
     private String nombre;
     private ParticipanteResponseDTO encargado;
+    private Long idOrientador;
     private PlanResponseDTO plan;
     private List<ParticipanteResponseDTO> participantes;
 
