@@ -2,7 +2,6 @@ package com.gestiontalentounicauca.actividadesmicroservice.controller;
 
 import com.gestiontalentounicauca.actividadesmicroservice.dto.request.EncuestaRequestDTO;
 import com.gestiontalentounicauca.actividadesmicroservice.dto.response.EncuestaResponseDTO;
-import com.gestiontalentounicauca.actividadesmicroservice.model.Encuesta;
 import com.gestiontalentounicauca.actividadesmicroservice.service.IEncuestaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

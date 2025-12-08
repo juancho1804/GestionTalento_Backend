@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ActividadServiceImpl implements IActividadService {
@@ -126,7 +127,7 @@ public class ActividadServiceImpl implements IActividadService {
                 .usuario(usuarioEncargado)
                 .build();
 
-        return actividadMapper.toResponse(actividad, encargadoResponse,planMapper.toResponse(plan),new ArrayList<>());
+        return actividadMapper.toResponse(actividad,planMapper.toResponse(plan),new ArrayList<>());
     }
 
 
@@ -199,7 +200,6 @@ public class ActividadServiceImpl implements IActividadService {
 
         return actividadMapper.toResponse(
                 actividad,
-                encargadoResponse,
                 planMapper.toResponse(plan),
                 new ArrayList<>()
         );
@@ -219,15 +219,23 @@ public class ActividadServiceImpl implements IActividadService {
     @Override
     public ActividadResponseDTO getActividad(Long id) {
         Actividad actividad = actividadRepository.findById(id).orElseThrow(() -> new RuntimeException("La actividad a buscar no existe"));
-        System.out.println("Buscando participante con id"+actividad.getIdEncargado());
-        ParticipanteResponseDTO encargado = participanteService.encontrarPorId(actividad.getIdEncargado());
-        return actividadMapper.toResponse(actividad, encargado, planMapper.toResponse(actividad.getPlan()), null);
+        return actividadMapper.toResponse(actividad, planMapper.toResponse(actividad.getPlan()), null);
     }
 
     @Override
     public List<ActividadResponseDTO> getActividades() {
-        return List.of();
+
+        List<Actividad> actividades = actividadRepository.findAll();
+
+        return actividades.stream()
+                .map(a -> actividadMapper.toResponse(
+                        a,
+                        planMapper.toResponse(a.getPlan()),
+                        null  // No hay participantes
+                ))
+                .collect(Collectors.toList());
     }
+
 
 
 

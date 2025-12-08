@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/motivopago")
 public class MotivoPagoController {
@@ -19,6 +21,28 @@ public class MotivoPagoController {
     public ResponseEntity<MotivoPagoResponseDTO> crearMotivoPago(@RequestBody MotivoPagoRequestDTO motivoPagoRequestDTO){
         MotivoPagoResponseDTO motivoPagoResponseDTO = motivoPagoService.crearMotivoPago(motivoPagoRequestDTO);
         return new ResponseEntity<>(motivoPagoResponseDTO, null, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<MotivoPagoResponseDTO> actualizarMotivoPago(@PathVariable Long id,@RequestBody MotivoPagoRequestDTO motivoPagoRequestDTO){
+        MotivoPagoResponseDTO motivoPagoResponseDTO = motivoPagoService.actualizarMotivoPago(id, motivoPagoRequestDTO);
+        return new ResponseEntity<>(motivoPagoResponseDTO, null, HttpStatus.OK);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<Boolean> eliminarMotivoPago(@RequestParam Long id){
+        return new ResponseEntity<>(motivoPagoService.eliminarMotivoPago(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<MotivoPagoResponseDTO> getMotivoPago(@PathVariable Long id){
+        MotivoPagoResponseDTO motivoPagoResponseDTO = motivoPagoService.encontrarPorId(id);
+        return new ResponseEntity<>(motivoPagoResponseDTO, HttpStatus.OK);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<MotivoPagoResponseDTO>> findAll(){
+        return new ResponseEntity<>(motivoPagoService.listarMotivoPagos(), HttpStatus.OK);
     }
 
 

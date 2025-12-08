@@ -15,10 +15,10 @@ import java.util.function.Supplier;
 public class ActividadMapper {
 
 
-    public ActividadResponseDTO toResponse(Actividad actividad, ParticipanteResponseDTO encargado, PlanResponseDTO plan, List<ParticipanteResponseDTO> participantes) {
+    public ActividadResponseDTO toResponse(Actividad actividad, PlanResponseDTO plan, List<ParticipanteResponseDTO> participantes) {
 
         ActividadResponseDTO actividadResponseDTO = ActividadResponseDTO.builder().id(actividad.getId())
-                .nombre(actividad.getNombre()).encargado(encargado).idOrientador(actividad.getIdOrientador())
+                .nombre(actividad.getNombre()).idEncargado(actividad.getIdEncargado()).idOrientador(actividad.getIdOrientador())
                 .plan(plan).participantes(participantes).build();
         return actividadResponseDTO;
     }

@@ -16,7 +16,7 @@ public class ActividadResponseDTO {
 
     private Long id;
     private String nombre;
-    private ParticipanteResponseDTO encargado;
+    private Long idEncargado;
     private Long idOrientador;
     private PlanResponseDTO plan;
     private List<ParticipanteResponseDTO> participantes;

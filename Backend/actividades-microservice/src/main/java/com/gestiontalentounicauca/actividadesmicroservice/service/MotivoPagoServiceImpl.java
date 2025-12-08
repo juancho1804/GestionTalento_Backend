@@ -72,22 +72,79 @@ public class MotivoPagoServiceImpl implements IMotivoPagoService {
     }
 
     @Override
-    public MotivoPagoResponseDTO actualizarMotivoPago(Long idMotivoPago, MotivoPagoRequestDTO motivoPagoRequestDTO) {
-        return null;
-    }
+    public MotivoPagoResponseDTO actualizarMotivoPago(Long idMotivoPago, MotivoPagoRequestDTO dto) {
 
+        MotivoPago motivoPago = motivoPagoRepository.findById(idMotivoPago)
+                .orElseThrow(() -> new EntityNotFoundException("MotivoPago no encontrado"));
+
+        // Validar monto
+        if (dto.getMonto() < 1) {
+            throw new RuntimeException("El monto no puede ser inferior a 1");
+        }
+
+        // Cambiar actividad si viene en el DTO
+        if (dto.getIdActividad() != null) {
+            Actividad nuevaActividad = actividadRepository.findById(dto.getIdActividad())
+                    .orElseThrow(() -> new EntityNotFoundException("Actividad no encontrada"));
+
+            if (!(nuevaActividad.getPlan().getTipoPlan().equals(TipoPlan.CAPACITACION)
+                    || nuevaActividad.getPlan().getTipoPlan().equals(TipoPlan.BIENESTAR))) {
+                throw new RuntimeException("Solo las actividades de capacitación o bienestar pueden tener encuestas");
+            }
+
+            motivoPago.setActividad(nuevaActividad);
+        }
+
+        // Cambiar tipoMotivoPago si viene en el DTO
+        if (dto.getIdTipoMotivoPago() != null || dto.getNombreTipoMotivoPago() != null) {
+
+            TipoMotivoPago tipo;
+
+            if (dto.getIdTipoMotivoPago() != null) {
+                tipo = tipoMotivoPagoRepository.findById(dto.getIdTipoMotivoPago())
+                        .orElseThrow(() -> new EntityNotFoundException("TipoMotivoPago no encontrado"));
+            } else {
+                String nombre = dto.getNombreTipoMotivoPago().trim();
+                tipo = tipoMotivoPagoRepository.findByNombreIgnoreCase(nombre);
+
+                if (tipo == null) {
+                    tipo = new TipoMotivoPago();
+                    tipo.setNombre(nombre);
+                    tipoMotivoPagoRepository.save(tipo);
+                }
+            }
+
+            motivoPago.setDominio(tipo);
+        }
+
+        // Actualizar monto
+        motivoPago.setMontoAsignado(dto.getMonto());
+
+        motivoPagoRepository.save(motivoPago);
+        return motivoPagoMapper.toResponseDTO(motivoPago);
+    }
     @Override
     public Boolean eliminarMotivoPago(Long idMotivoPago) {
-        return null;
+        MotivoPago motivoPago = motivoPagoRepository.findById(idMotivoPago)
+                .orElseThrow(() -> new EntityNotFoundException("MotivoPago no encontrado"));
+
+        motivoPagoRepository.delete(motivoPago);
+        return true;
     }
 
     @Override
     public List<MotivoPagoResponseDTO> listarMotivoPagos() {
-        return List.of();
+        return motivoPagoRepository.findAll()
+                .stream()
+                .map(motivoPagoMapper::toResponseDTO)
+                .toList();
     }
 
     @Override
     public MotivoPagoResponseDTO encontrarPorId(Long idMotivoPago) {
-        return null;
+        MotivoPago motivoPago = motivoPagoRepository.findById(idMotivoPago)
+                .orElseThrow(() -> new EntityNotFoundException("MotivoPago no encontrado"));
+
+        return motivoPagoMapper.toResponseDTO(motivoPago);
     }
 }
