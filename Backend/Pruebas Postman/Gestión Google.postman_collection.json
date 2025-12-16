@@ -1,0 +1,64 @@
+{
+	"info": {
+		"_postman_id": "cfadda7a-4396-4be9-a1c8-d7f8caff42ea",
+		"name": "Gestión Google",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34486557"
+	},
+	"item": [
+		{
+			"name": "Obtener usuarios de GoogleForms",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8001/api/forms/respuestas?spreadsheetId=1jlsnyMlJzblplSU5DIPU3dH_4jBlYzz1BcKdy_opJe4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"forms",
+						"respuestas"
+					],
+					"query": [
+						{
+							"key": "spreadsheetId",
+							"value": "1jlsnyMlJzblplSU5DIPU3dH_4jBlYzz1BcKdy_opJe4"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Registrar usuarios por GoogleForms",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8001/api/usuario/2?spreadsheetId=1jlsnyMlJzblplSU5DIPU3dH_4jBlYzz1BcKdy_opJe4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"usuario",
+						"2"
+					],
+					"query": [
+						{
+							"key": "spreadsheetId",
+							"value": "1jlsnyMlJzblplSU5DIPU3dH_4jBlYzz1BcKdy_opJe4"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

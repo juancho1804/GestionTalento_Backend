@@ -1,0 +1,108 @@
+{
+	"info": {
+		"_postman_id": "764fd825-5c4c-41ca-bc15-d2802802f2a8",
+		"name": "Gestión Evidencias",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34486557"
+	},
+	"item": [
+		{
+			"name": "Guardar Evidencia",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "actividadId",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/Users/juanm/Downloads/soportes.pdf"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8002/evidencias",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8002",
+					"path": [
+						"evidencias"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Eliminar Evidencia",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8002/evidencias?actividadId=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8002",
+					"path": [
+						"evidencias"
+					],
+					"query": [
+						{
+							"key": "actividadId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar Evidencia",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8002/evidencias/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8002",
+					"path": [
+						"evidencias",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar Evidencias",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8002/evidencias",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8002",
+					"path": [
+						"evidencias"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

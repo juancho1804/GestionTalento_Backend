@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequestMapping("/actividades")
 @RestController
 @Tag(
@@ -98,5 +100,21 @@ public class ActividadController {
                 null,
                 HttpStatus.OK
         );
+    }
+
+
+    @Operation(
+            summary = "Obtener todas las actividades",
+            description = "Obtiene todas las actividades"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Actividades encontradas")
+    })
+    @GetMapping
+    public ResponseEntity<List<ActividadResponseDTO>> getActividades() {
+        return new ResponseEntity<>(
+                actividadService.getActividades(),
+                null,
+                HttpStatus.OK);
     }
 }
