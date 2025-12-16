@@ -1,12 +1,18 @@
 package com.gestiontalentounicauca.usuariomicroservice.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Set;
 
 @Data
 @Schema(description = "Respuesta con la información del usuario")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class UsuarioResponseDTO {
 
     @Schema(
