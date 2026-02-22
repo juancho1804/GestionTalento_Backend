@@ -25,7 +25,7 @@ public class RolController {
     @Autowired
     private IRolService rolService;
 
-    // ------------------ CREAR ROL ------------------
+    // ------------------ CREAR ROL -----------------
     @Operation(
             summary = "Crear un rol",
             description = "Registra un nuevo rol en el sistema"
